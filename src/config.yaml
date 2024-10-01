@@ -1,0 +1,8 @@
+detection:
+  pretrained_model: yolo11m.pt
+  classes: 
+    - person
+
+inference:
+  path: data/video_temp.mp4
+  output_video: data/output.mp4
