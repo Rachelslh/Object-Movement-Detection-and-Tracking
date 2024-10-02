@@ -1,2 +1,4 @@
 # model checkpoints
 *.pt
+
+*.mp4

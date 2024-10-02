@@ -1,8 +1,9 @@
 detection:
   pretrained_model: yolo11m.pt
-  classes: 
-    - person
+  confidence: 0.40
+  classes:
+    - car
 
 inference:
-  path: data/video_temp.mp4
+  path: data/video.mp4
   output_video: data/output.mp4
