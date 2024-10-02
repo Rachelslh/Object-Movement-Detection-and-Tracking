@@ -72,9 +72,8 @@ Object-Movement-Detection-and-Tracking/
 
 ### YOLO Inference
 
-Using YOLO11m here for detection and classficiation, inference runs with one frame at a time to mimic behavior where the input comes from an RTSP, taking an average of 150ms per frame on an MPS(M1) device. C
+Using YOLO11m here for detection and classficiation, inference runs with one frame at a time to mimic behavior where the input comes from an RTSP, taking an average of 150ms per frame on an MPS(M1) device.
 
-I've set the class confidence threshold to 0.40.
 From the Ultralytics Yolov11 model results, it appears that Yolo11m has a good  precision/latency tradeoff, larger models aren't that far away in terms of precision but have a higher latency. Smaller models appear to have lower latency and lower precision values than the medium one (Yolo11m).
 
 ### Kalman Filter
@@ -102,7 +101,7 @@ The code adheres to the rules of OOP, designed some ML-based types such as the b
 ## Results
 
 Input video comes from [here](https://www.youtube.com/watch?v=Y1jTEyb3wiI).
-Output video can be visualized [here](https://drive.google.com/file/d/1gyJCpnmVahOt4HVHXJZciFckhrnVa-5Y/view?usp=sharing).
+Output video can be visualized [here](https://drive.google.com/file/d/1gyJCpnmVahOt4HVHXJZciFckhrnVa-5Y/view?usp=sharing). Used class confidence threshold of 0.40 for this one.
 
 <p align="center">
   <img src="output/Objects_movement.png" width="60%" />
