@@ -57,6 +57,7 @@ tracker = SortTracker()
 cap = cv2.VideoCapture(config.inference.input_path)
 
 # Retrieve frame width, height, and FPS
+n_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 fps = cap.get(cv2.CAP_PROP_FPS)
@@ -72,7 +73,6 @@ if not cap.isOpened():
     exit()
 
 # Loop through the video frame by frame
-n_frames = 0
 while True:
     ret, frame = cap.read()
 
@@ -93,7 +93,6 @@ while True:
 
     # Write the frame to the video
     out.write(frame)
-    n_frames += 1
 
     if cv2.waitKey(25) & 0xFF == ord("q"):
         break
@@ -106,7 +105,7 @@ cv2.destroyAllWindows()
 frames = np.arange(n_frames)
 for track_id, velocities in tracker.velocity_per_track.items():
     velocity_per_frame = np.zeros((frames.shape[0]))
-    velocity_per_frame[: len(velocities)] = velocities
+    velocity_per_frame[list(velocities.keys())] = list(velocities.values())
     # Plot the velocity over time
     plt.plot(frames, velocity_per_frame, label=f"Object {track_id}")
 

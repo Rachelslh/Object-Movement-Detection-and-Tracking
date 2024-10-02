@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 from collections import defaultdict
 
 from ultralytics import YOLO
@@ -57,7 +57,9 @@ class SortTracker:
     def __init__(self) -> None:
         self.tracks: List[Track] = []
         self.kalman_filters: dict[int, BboxKalmanFilter] = {}
-        self.velocity_per_track: dict[int, List[float]] = defaultdict(list)
+        self.velocity_per_track: dict[int, Dict[int, float]] = defaultdict(dict)
+
+        self.step = 0
 
     def __call__(self, detections: List[Detection]):
         """
@@ -91,12 +93,12 @@ class SortTracker:
                 )
                 if iou_values[i, j] <= 0:
                     self.tracks[j].bbox = Box.from_kf_state(pred_state)
-                    self.velocity_per_track[track_id].append(current_velocity)
+                    self.velocity_per_track[track_id][self.step] = current_velocity
                     continue
 
                 # Use position predictions from Kalman Filters
                 self.tracks[j].bbox = Box.from_kf_state(pred_state)
-                self.velocity_per_track[track_id].append(current_velocity)
+                self.velocity_per_track[track_id][self.step] = current_velocity
                 # Update the Kalman filter associated to the track
                 self.kalman_filters[track_id](bbox)
 
@@ -126,6 +128,8 @@ class SortTracker:
             )
             self.tracks.append(new_track)
             self.kalman_filters[new_track.id] = BboxKalmanFilter(bbox)
+
+        self.step += 1
 
 
 class BboxKalmanFilter:
