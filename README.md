@@ -81,8 +81,8 @@ From the Ultralytics Yolov11 model results, it appears that Yolo11m has a good  
 
 The Kalman Filter is used for predicting the next position of each object based on its past state. The Kalman filter helps:
 
-	•	Predict the next state of the object. I designed the state to be comprised of [center_x, center_y, area, aspect_ratio, velocity_x, velocity_y]. The area and aspect ratio are important to be defined in the state here as we're dealing with an entire object and not just a point in movement, this is needed to be able to predict a bounding box.
-	•	Correct the prediction using the new measurements i.e. [center_x, center_y, area, aspect_ratio] that are retrieved from the new bounding box detection.
+- Predict the next state of the object. I designed the state to be comprised of [center_x, center_y, area, aspect_ratio, velocity_x, velocity_y]. The area and aspect ratio are important to be defined in the state here as we're dealing with an entire object and not just a point in movement, this is needed to be able to predict a bounding box.
+- Correct the prediction using the new measurements i.e. [center_x, center_y, area, aspect_ratio] that are retrieved from the new bounding box detection.
 
 Noise and uncertainty covariance matrices are created by default using KalmanFilter from FilterPy package.
 
@@ -90,9 +90,9 @@ Noise and uncertainty covariance matrices are created by default using KalmanFil
 
 The SORT (Simple Online and Realtime Tracking) algorithm is used for multi-object tracking. It works by:
 
-	•	Matching detected objects (bounding boxes) with the tracks' estimated bounding boxes based on IOU values and using linear sum assignment which is by default minimum weight matching, however, we are maximizing the cost (IOU) here.
-	•	Assigning unique IDs to each track.
-	•	Handling the appearance and disappearance of objects over time: After matching, we are left with either some unmatched detections or unmatched tracks or even both. For unmatched detections, these are considered as new tracks that just appeared (Track initialization). For unmatched tracks, these are considered lost tracks (Track deletion) To extend the track's life in this case, can add some waiting time to enable track recovery.
+- Matching detected objects (bounding boxes) with the tracks' estimated bounding boxes based on IOU values and using linear sum assignment which is by default minimum weight matching, however, we are maximizing the cost (IOU) here.
+- Assigning unique IDs to each track.
+- Handling the appearance and disappearance of objects over time: After matching, we are left with either some unmatched detections or unmatched tracks or even both. For unmatched detections, these are considered as new tracks that just appeared (Track initialization). For unmatched tracks, these are considered lost tracks (Track deletion) To extend the track's life in this case, can add some waiting time to enable track recovery.
 
 
 ### Additional Info
