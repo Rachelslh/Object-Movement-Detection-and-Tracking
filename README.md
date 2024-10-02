@@ -19,17 +19,17 @@ This repository implements object detection and tracking using computer vision t
 ## Overview
 This project aims to provide a streamlined approach for detecting and tracking objects in video streams using computer vision. It uses **Kalman filters** to estimate the object's position and velocity while compensating for noisy measurements. The **SORT (Simple Online and Realtime Tracking)** algorithm is employed for real-time tracking of multiple objects.
 
-In addition to tracking, the system outputs a graph that visualizes the movement (activity) of tracked objects over time (frames when using a video).
+In addition to tracking, the system outputs a video and a graph to visualizes the movement (activity) of tracked objects over time.
 
 ## Key Features
 - Object detection in video streams.
-- Real-time multi-object tracking using the SORT algorithm.
+- Real-time multi-object tracking using SORT algorithm.
 - Kalman filter-based state estimation for each object (position and velocity).
-- Visualization of object activity (velocity) over time.
+- Visualization of object activity over time.
 - Easily configurable for different video input sources.
 
 ## Installation
-Clone the repository and launch container building, it will run automatically once the build is done. The container uses Ultralytics's latest image along with some additional packages that are specified in requirement.txt and are installed automatically.
+Clone the repository and launch container building, it will run automatically once the build is done. The container uses Ultralytics's latest image along with some additional packages that are specified in `requirement.txt` and are installed automatically.
 
 ```bash
 git clone https://github.com/Rachelslh/Object-Movement-Detection-and-Tracking.git
@@ -48,9 +48,9 @@ You can run the object detection and tracking on any video file by specifying th
 python infer.py
 ```
 
-The program will process the video, apply object detection, and track the objects in real-time. Detected bounding boxes will be drawn around the objects of interest in blue, their positions and velocities will be tracked. The tracks' estimated bounding boxes are drawn in red. This is saved whithin the output video that will be written by default to output.mp4.
+The program will process the video, apply object detection, and track the objects in real-time. Detected bounding boxes will be drawn around the objects of interest in blue, their positions and velocities will be tracked. The tracks' estimated bounding boxes are drawn in red. This is saved whithin the output video that will be written by default to `output.mp4`.
 
-You'll also find a plot saved whithin the main directory under the name Objects_movement.png. The plot shows all the tracks' velocities (i thought about using displacement instead but velocity is also a proof of movement and is estimated directly by Kalman filters).
+You'll also find a plot saved whithin the main directory under the name `Objects_movement.png`. The plot shows all the tracks' velocities (i thought about using displacement instead but velocity is also a proof of movement and is estimated directly by Kalman filters).
 
 ## File Structure
 
@@ -75,7 +75,7 @@ Object-Movement-Detection-and-Tracking/
 Using YOLO11m here for detection and classficiation, inference runs with one frame at a time to mimic behavior where the input comes from an RTSP, taking an average of 150ms per frame on an MPS(M1) device. C
 
 I've set the class confidence threshold to 0.40, higher values resulted in more missing detections. On the video, you'll notice that not all cars are detected, specifcally the ones that are away and hence look smaller, can use tiling here as a technique to detect small objects.
-From the Ultralytics Yolov11 model results, it appears that Yolo11m has a good  accuracy/latency tradeoff, larger models aren't that far away in terms of accuracy but have a bigger latency. Smaller models appear to have better latency but smaller accuracy values than the medium one (Yolo11m).
+From the Ultralytics Yolov11 model results, it appears that Yolo11m has a good  precision/latency tradeoff, larger models aren't that far away in terms of precision but have a higher latency. Smaller models appear to have lower latency and lower precision values than the medium one (Yolo11m).
 
 ### Kalman Filter
 
@@ -102,6 +102,7 @@ The code adheres to the rules of OOP, designed some ML-based types such as the b
 ## Results
 
 Input video comes from [here](https://www.youtube.com/watch?v=Y1jTEyb3wiI).
+Output video can be visualized [here](https://drive.google.com/file/d/1gyJCpnmVahOt4HVHXJZciFckhrnVa-5Y/view?usp=sharing).
 
 <p align="center">
   <img src="output/Objects_movement.png" width="60%" />
