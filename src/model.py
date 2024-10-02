@@ -70,7 +70,7 @@ class SortTracker:
                 current_velocity = np.sqrt(
                     pred_state[4, 0] ** 2 + pred_state[5, 0] ** 2
                 )
-                if iou_values[i, j] <= 0.20:
+                if iou_values[i, j] <= 0:
                     self.tracks[j].bbox = Box.from_kf_state(pred_state)
                     self.velocity_per_track[track_id].append(current_velocity)
                     continue

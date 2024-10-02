@@ -44,13 +44,14 @@ detector = Detector(**config.detection)
 tracker = SortTracker()
 
 # Open the video file
-cap = cv2.VideoCapture(config.inference.path)
+cap = cv2.VideoCapture(config.inference.input_path)
 
 # Retrieve frame width, height, and FPS
 frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 fps = cap.get(cv2.CAP_PROP_FPS)
-# Define the codec and create VideoWriter object
+
+# Define the codec and create a VideoWriter object using input video's params
 fourcc = cv2.VideoWriter_fourcc(*"MP4V")
 out = cv2.VideoWriter(
     config.inference.output_video, fourcc, fps, (frame_width, frame_height)
@@ -58,7 +59,7 @@ out = cv2.VideoWriter(
 
 # Check if the video file was successfully opened
 if not cap.isOpened():
-    print(f"Error: Cannot open video file {config.inference.path}")
+    print(f"Error: Cannot open video file {config.inference.input_path}")
     exit()
 
 # Loop through the video frame by frame
@@ -80,7 +81,7 @@ while True:
     plot(frame, tracker.tracks, (0, 0, 255))
 
     # Display the frame
-    # cv2.imshow('Video', frame)
+    cv2.imshow("Video", frame)
 
     # Write the frame to the video
     out.write(frame)

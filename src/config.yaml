@@ -5,5 +5,5 @@ detection:
     - car
 
 inference:
-  path: data/video.mp4
+  input_path: data/video.mp4
   output_video: data/output.mp4
