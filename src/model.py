@@ -24,6 +24,17 @@ class Detector:
         )
 
     def predict(self, img: np.array):
+        """
+        Performs object detection on the input image and returns a list of detected objects.
+
+        Args:
+            img (np.array): Input image as a NumPy array on which detection will be performed.
+
+        Returns:
+            List[Detection]: A list of `Detection` objects, each containing:
+                            - A `Box` object (x1, y1, width, height) representing the bounding box of the detected object.
+                            - A confidence score (float) for the detection.
+        """
         detections: List[Detection] = []
         # Run batched inference on a list of images
         result = self.model.predict(
@@ -49,7 +60,15 @@ class SortTracker:
         self.velocity_per_track: dict[int, List[float]] = defaultdict(list)
 
     def __call__(self, detections: List[Detection]):
-        if len(self.tracks) > 0:
+        """
+        Updates the tracker state by associating detected objects to existing tracks, predicting future states
+        using Kalman Filters, and initializing new tracks if needed.
+
+        Args:
+            detections (List[Detection]): A list of `Detection` objects containing the bounding boxes (`Box`)
+                                        and confidence scores of detected objects in the current frame.
+        """
+        if len(detections) > 0 and len(self.tracks) > 0:
             detection_bboxes = [det.bbox.xyxy for det in detections]
             tracker_bboxes = [track.bbox.xyxy for track in self.tracks]
 
@@ -111,14 +130,13 @@ class SortTracker:
 
 class BboxKalmanFilter:
     def __init__(self, bbox: Box):
+        # Define a time step
         dt = 1
         # Initialize the Kalman Filter object
         self.kf = KalmanFilter(dim_x=6, dim_z=4)
 
-        # Initial state (position and velocity)
-        self.kf.x[:4, 0] = np.array(
-            bbox.kf_state
-        )  # [x1_pos, y1_pos, x2_pos, y2_pos], not chaning the velocity here, keeping it to whatever it's initializaed to
+        # Initial state: position [center_x, center_y, area, aspect_ratio], velocity initial values should be zeroed-out by default
+        self.kf.x[:4, 0] = np.array(bbox.kf_state)
 
         # State transition matrix F (constant velocity model)
         self.kf.F = np.array(
@@ -132,7 +150,7 @@ class BboxKalmanFilter:
             ]
         )
 
-        # Measurement function H (we can only observe position)
+        # Measurement function H (we can only retrieve position from model detections)
         self.kf.H = np.array(
             [
                 [1, 0, 0, 0, 0, 0],
@@ -142,17 +160,15 @@ class BboxKalmanFilter:
             ]
         )
 
-        # Process noise covariance Q (assume some uncertainty in process)
-        self.kf.Q = np.eye(6) * 0.1
-
-        # Measurement noise covariance R (assume some uncertainty in measurements)
-        self.kf.R = np.eye(4) * 5
-
-        # Covariance matrix P (initial uncertainty)
-        self.kf.P = np.eye(6) * 10  # Large initial uncertainty
-
         self(bbox)
 
     def __call__(self, bbox: Box):
+        """
+        Updates the Kalman Filter with the current bounding box state.
+
+        Args:
+            bbox (Box): The `Box` object representing the detected object's bounding box in the current frame.
+                        The bounding box state (center, area, aspect ratio) is extracted and used to update the filter.
+        """
         self.kf.predict()
         self.kf.update(bbox.kf_state)

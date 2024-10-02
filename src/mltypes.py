@@ -9,6 +9,16 @@ _id_counter = 0
 
 
 def generate_id():
+    """
+    Generates a unique integer ID by incrementing a global counter.
+
+    This function maintains a global `_id_counter` variable, which is incremented
+    each time the function is called. The new value of the counter is returned,
+    ensuring a unique ID is generated sequentially.
+
+    Returns:
+        int: A unique integer ID.
+    """
     global _id_counter
     _id_counter += 1
     return _id_counter
@@ -39,12 +49,27 @@ class Box:
 
     @property
     def kf_state(self):
+        """
+        Represents the Kalman Filter state vector for this box, consisting of its center coordinates,
+        area, and aspect ratio.
+
+        Returns:
+            List[float]: The Kalman Filter state vector [cx, cy, area, aspect_ratio].
+        """
         return [*self.center, self.area, self.aspect_ratio]
 
     @classmethod
     def from_kf_state(cls, state: np.ndarray):
         """
-        kalman filter state 'x' is defined in our use-case as (cx,cy,area,aspect_ratio, vel_x, vel_y)
+        Reconstructs a Box object from a Kalman Filter state vector. The Kalman filter state is
+        assumed to be in the form (cx, cy, area, aspect_ratio, vel_x, vel_y), though only the first
+        four elements are used here.
+
+        Args:
+            state (np.ndarray): The Kalman filter state vector (cx, cy, area, aspect_ratio, ...).
+
+        Returns:
+            Box: A Box object reconstructed from the Kalman Filter state.
         """
         state = state[:4, 0]
         w = int(np.sqrt(state[2] * state[3]))

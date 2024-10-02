@@ -14,6 +14,17 @@ def plot(
     detections: List[Union[Detection, Track]],
     color: Tuple[int, int, int],
 ):
+    """
+    Draws bounding boxes and labels on the image for detections or tracks.
+
+    Args:
+        image (np.array): The input image (as a NumPy array) on which to draw the bounding boxes.
+        detections (List[Union[Detection, Track]]): A list of `Detection` or `Track` objects.
+            - If the object is of type `Detection`, it draws the bounding box and confidence score.
+            - If the object is of type `Track`, it draws the bounding box and the track ID.
+        color (Tuple[int, int, int]): The color for the bounding boxes, specified as a tuple (B, G, R).
+    """
+
     for det in detections:
         x1, y1, x2, y2 = det.bbox.xyxy
         cv2.rectangle(image, (x1, y1), (x2, y2), color, 2)  # Blue box
@@ -43,7 +54,6 @@ config = OmegaConf.load("src/config.yaml")
 detector = Detector(**config.detection)
 tracker = SortTracker()
 
-# Open the video file
 cap = cv2.VideoCapture(config.inference.input_path)
 
 # Retrieve frame width, height, and FPS
@@ -57,17 +67,15 @@ out = cv2.VideoWriter(
     config.inference.output_video, fourcc, fps, (frame_width, frame_height)
 )
 
-# Check if the video file was successfully opened
 if not cap.isOpened():
     print(f"Error: Cannot open video file {config.inference.input_path}")
     exit()
 
 # Loop through the video frame by frame
+n_frames = 0
 while True:
-    # Read a frame from the video
     ret, frame = cap.read()
 
-    # If frame is read correctly, ret will be True
     if not ret:
         print("End of video file or error in reading the video.")
         break
@@ -81,26 +89,21 @@ while True:
     plot(frame, tracker.tracks, (0, 0, 255))
 
     # Display the frame
-    cv2.imshow("Video", frame)
+    # cv2.imshow("Video", frame)
 
     # Write the frame to the video
     out.write(frame)
+    n_frames += 1
 
-    # Exit the loop when 'q' is pressed
     if cv2.waitKey(25) & 0xFF == ord("q"):
         break
 
-# Release the video capture object
 cap.release()
-# Release the VideoWriter object
 out.release()
-# Close all OpenCV windows
 cv2.destroyAllWindows()
 
 # Plot a graph that shows each track's movement over time
-frames = np.arange(
-    max([len(vel_list) for vel_list in tracker.velocity_per_track.values()])
-)
+frames = np.arange(n_frames)
 for track_id, velocities in tracker.velocity_per_track.items():
     velocity_per_frame = np.zeros((frames.shape[0]))
     velocity_per_frame[: len(velocities)] = velocities
@@ -112,5 +115,4 @@ plt.title("Objects Movement (Velocity) Over Time")
 plt.xlabel("Time (frames)")
 plt.ylabel("Velocity (pixels/frame)")
 plt.legend()
-plt.grid(True)
-plt.show()
+plt.savefig(config.inference.output_graph)

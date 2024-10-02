@@ -6,4 +6,5 @@ detection:
 
 inference:
   input_path: data/video.mp4
-  output_video: data/output.mp4
+  output_video: output/output.mp4
+  output_graph: output/Objects_movement.png
