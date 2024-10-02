@@ -74,7 +74,7 @@ Object-Movement-Detection-and-Tracking/
 
 Using YOLO11m here for detection and classficiation, inference runs with one frame at a time to mimic behavior where the input comes from an RTSP, taking an average of 150ms per frame on an MPS(M1) device. C
 
-I've set the class confidence threshold to 0.40, higher values resulted in more missing detections. On the video, you'll notice that not all cars are detected, specifcally the ones that are away and hence look smaller, can use tiling here as a technique to detect small objects.
+I've set the class confidence threshold to 0.40.
 From the Ultralytics Yolov11 model results, it appears that Yolo11m has a good  precision/latency tradeoff, larger models aren't that far away in terms of precision but have a higher latency. Smaller models appear to have lower latency and lower precision values than the medium one (Yolo11m).
 
 ### Kalman Filter
