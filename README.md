@@ -87,7 +87,7 @@ Noise and uncertainty covariance matrices are created by default using KalmanFil
 
 The SORT (Simple Online and Realtime Tracking) algorithm is used for multi-object tracking. It works by:
 
-- Matching detected objects (bounding boxes) with the tracks' estimated bounding boxes based on IOU values and using linear sum assignment which is by default minimum weight matching, however, we are maximizing the cost (IOU) here.
+- Matching detected objects (bounding boxes) with the tracks' estimated bounding boxes based on IOU values and using linear assignment which is by default minimum weight matching, however, we are maximizing the cost (IOU) here. The assignement method uses The Jonker-Volgenant algorithm that supposed to be much faster than the famous Hungarian algorithm.
 - Assigning unique IDs to each track.
 - Handling the appearance and disappearance of objects over time: After matching, we are left with either some unmatched detections or unmatched tracks or even both. For unmatched detections, these are considered as new tracks that just appeared (Track initialization). For unmatched tracks, these are considered lost tracks (Track deletion) To extend the track's life in this case, can add some waiting time to enable track recovery.
 
