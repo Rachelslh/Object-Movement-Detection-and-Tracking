@@ -1,5 +1,3 @@
-sh docker.sh
-
 # Object Movement Detection and Tracking
 
 This repository implements object detection and tracking using computer vision techniques, specifically leveraging **Kalman Filters** and the **SORT algorithm** (Simple Online and Realtime Tracking). The project aims to detect objects in a video feed and track their movement across frames and outputting a graph showing how active each object is over time. The current implementation handles single-class only. For multi-class, a class similarity check needs to be added to the tracker in order to avoid confusion between tracks that have different classes.
