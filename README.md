@@ -52,7 +52,7 @@ You'll also find a plot saved whithin the main directory under the name `Objects
 
 ## File Structure
 
-Here's the main file structure, excluding additional repo management tools as dockerfile and the pre-commit hook.
+Here's the main file structure, excluding additional repo management tools such as dockerfile and the pre-commit hook.
 
 ```bash
 Object-Movement-Detection-and-Tracking/
