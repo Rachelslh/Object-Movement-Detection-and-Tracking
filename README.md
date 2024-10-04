@@ -70,7 +70,7 @@ Object-Movement-Detection-and-Tracking/
 
 ### YOLO Inference
 
-Using YOLO11m here for detection and classficiation, inference runs with one frame at a time to mimic behavior where the input comes from an RTSP, taking an average of 150ms per frame on an MPS(M1) device.
+Using YOLO11m here for detection and classficiation, inference runs with one frame at a time to mimic the behavior where the input comes from an RTSP, taking an average of 150ms per frame on an MPS(M1) device.
 
 From the Ultralytics Yolov11 model results, it appears that Yolo11m has a good  precision/latency tradeoff, larger models aren't that far away in terms of precision but have a higher latency. Smaller models appear to have lower latency and lower precision values than the medium one (Yolo11m).
 
