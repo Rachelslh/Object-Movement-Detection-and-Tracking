@@ -21,8 +21,8 @@ In addition to tracking, the system outputs a video and a graph to visualize the
 
 ## Key Features
 - Object detection in video streams.
-- Real-time multi-object tracking using SORT algorithm.
 - Kalman filter-based state estimation for each object (position and velocity).
+- Real-time multi-object tracking using SORT algorithm.
 - Visualization of object activity over time.
 - Easily configurable for different video input sources.
 
