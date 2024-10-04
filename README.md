@@ -101,6 +101,8 @@ The code adheres to the rules of OOP, designed some ML-based types such as the b
 Input video comes from [here](https://www.youtube.com/watch?v=Y1jTEyb3wiI).
 Output video can be visualized [here](https://drive.google.com/file/d/1gyJCpnmVahOt4HVHXJZciFckhrnVa-5Y/view?usp=sharing). Used class confidence threshold of 0.40 for this one.
 
+The plot reflects the high velocities present in the video, the average velocity across all of the objects present in the video seems to be approximately 42 pixels/frame, which aligns with what we're seeing in the input video (cars moving fast in the highway).
+
 <p align="center">
   <img src="output/Objects_movement.png" width="60%" />
 </p>
