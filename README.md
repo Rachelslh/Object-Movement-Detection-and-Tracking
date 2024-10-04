@@ -27,7 +27,7 @@ In addition to tracking, the system outputs a video and a graph to visualize the
 - Easily configurable for different video input sources.
 
 ## Installation
-Clone the repository and launch container building, it will run automatically once the build is done. The container uses Ultralytics's latest image along with some additional packages that are specified in `requirement.txt` and are installed automatically.
+Clone the repository and launch container building, it will run automatically once the build is done. The container uses Ultralytics's latest image along with some additional packages that are specified in `requirements.txt` and are installed automatically.
 
 ```bash
 git clone https://github.com/Rachelslh/Object-Movement-Detection-and-Tracking.git
@@ -38,7 +38,7 @@ sh docker.sh
 ## Usage
 
 ### Running Object Detection and Tracking
-There's a config file under the src directory, in which you can specify the pretrained model you'd like from Ultralytics, class confidence threshold and the class you'd like to work with.
+There's a config file under the src directory, in which you can specify the pretrained model you'd like from Ultralytics, class confidence threshold and the class you'd like to work with. I chose cars because the input video i used is about moving cars in the highway.
 
 You can run the object detection and tracking on any video file by specifying the path to the input file and the output path in the config directly.
 
