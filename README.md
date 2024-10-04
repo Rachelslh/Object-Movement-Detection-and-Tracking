@@ -17,7 +17,7 @@ This repository implements object detection and tracking using computer vision t
 ## Overview
 This project aims to provide a streamlined approach for detecting and tracking objects in video streams using computer vision. It uses **Kalman filters** to estimate the object's position and velocity while compensating for noisy measurements. The **SORT (Simple Online and Realtime Tracking)** algorithm is employed for real-time tracking of multiple objects.
 
-In addition to tracking, the system outputs a video and a graph to visualizes the movement (activity) of tracked objects over time.
+In addition to tracking, the system outputs a video and a graph to visualize the movement (activity) of tracked objects over time.
 
 ## Key Features
 - Object detection in video streams.
