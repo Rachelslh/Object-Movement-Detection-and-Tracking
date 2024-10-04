@@ -38,7 +38,7 @@ sh docker.sh
 ## Usage
 
 ### Running Object Detection and Tracking
-There's a config file under the src directory, in which you can specify the pretrained model you'd like from Ultralytics, class confidence threshold and the class you'd like to work with. I chose cars because the input video i used is about moving cars in the highway.
+There's a config file under the src directory, in which you can specify the pretrained model you'd like from Ultralytics (if you change it from its default value that is currently yolo11m, then the corresponding model classmap needs to be updated), class confidence threshold and the class you'd like to work with. I chose cars because the input video i used is about moving cars in the highway.
 
 You can run the object detection and tracking on any video file by specifying the path to the input file and the output path in the config directly.
 
@@ -57,12 +57,12 @@ Here's the main file structure, excluding additional repo management tools such 
 ```bash
 Object-Movement-Detection-and-Tracking/
 │
-├── data/                      # Contains sample video files and output data
+├── data/                      # Contains an input video file and a JSON to specify model classmap
 ├── src/                       # Source directory
 │   ├── config.py              # configuration YAML file
     ├── model.py               # Yolo inference, SORT algorithm implementation, Kalman Filter implementation
 │   └── mltypes.py             # Types defined as dataclasses to work with
-├── data/                      # Contains sample video files and output data
+├── infer.py                   # Main inference script, runs the full pipline
 └── README.md                  # Project description and usage
 ```
 
